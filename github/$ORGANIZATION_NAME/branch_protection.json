@@ -1,0 +1,16 @@
+{
+  "$GITHUB_MGMT_REPOSITORY_NAME": {
+    "$GITHUB_MGMT_REPOSITORY_DEFAULT_BRANCH": {
+      "required_pull_request_reviews": [{}],
+      "required_status_checks": [
+        {
+          "contexts": [
+            "Prepare",
+            "Plan ($GITHUB_ORGANIZATION_NAME)"
+          ],
+          "strict": true
+        }
+      ]
+    }
+  }
+}
