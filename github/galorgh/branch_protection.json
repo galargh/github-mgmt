@@ -13,5 +13,19 @@
         }
       ]
     }
+  },
+  "github-mgmt": {
+    "master": {
+      "required_pull_request_reviews": [{}],
+      "required_status_checks": [
+        {
+          "contexts": [
+            "Plan (galorgh)",
+            "Prepare"
+          ],
+          "strict": true
+        }
+      ]
+    }
   }
 }
