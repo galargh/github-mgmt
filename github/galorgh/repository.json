@@ -1,1 +1,27 @@
-{}
+{
+  ".github": {
+    "allow_merge_commit": true,
+    "allow_rebase_merge": false,
+    "allow_squash_merge": false
+  },
+  "github-mgmt": {
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_squash_merge": true
+  },
+  "github-mgmt-template": {
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_squash_merge": true
+  },
+  "test": {
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_squash_merge": true
+  },
+  "test-test": {
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_squash_merge": true
+  }
+}

@@ -1,1 +1,17 @@
-{}
+{
+  ".github": {
+    "master": {
+      "required_pull_request_reviews": [
+        {}
+      ],
+      "required_status_checks": [
+        {
+          "contexts": [
+            "Prepare"
+          ],
+          "strict": false
+        }
+      ]
+    }
+  }
+}
