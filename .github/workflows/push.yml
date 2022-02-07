@@ -3,7 +3,7 @@ name: "Push"
 on:
   push:
     branches:
-      - $GITHUB_MGMT_REPOSITORY_DEFAULT_BRANCH
+      - master
   workflow_dispatch:
 
 jobs:

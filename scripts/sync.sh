@@ -41,8 +41,8 @@ resource_targets="$(jq -r 'map("-target=github_\(.).this") | join(" ")' <<< "$re
 
 data_targets="[]"
 while read resource; do
-  data="$(cat "$root/terraform/data.tf" | tr -d '[:space:]' | grep -oP '#@resources.'"$resource"'.datadata"\K.*?"')"
-  data="$(jq 'split("\"")' <<< '"'"${data:1:-2}"'"')"
+  data="$(cat "$root/terraform/data.tf" | tr -d '[:space:]' | grep -oP '#@resources.'"$resource"'.datadata"\K.*?"' | tr -d '[:space:]')"
+  data="$(jq 'split("\"")' <<< '"'"${data:0:-1}"'"')"
   data_targets="$(jq '$data + .' --argjson data "$data" <<< "$data_targets")"
 done <<< "$(jq -r '.[]' <<< "$resources")"
 data_targets="$(jq -r 'unique | map("-target=data.\(.).this") | join(" ")' <<< "$data_targets")"
@@ -87,9 +87,9 @@ echo "Retrieving state"
 state="$(terraform show -json)"
 
 while read resource; do
-  required="$(cat "$root/terraform/resources.tf" | tr -d '[:space:]' | grep -oP '#@resources.'"$resource"'.required\K.*?=')"
-  required="$(jq 'split("=")' <<< '"'"${required:1:-2}"'"')"
-  ignore_changes="$(cat "$root/terraform/resources.tf" | tr -d '[:space:]' | grep -oP '#@resources.'"$resource"'.ignore_changesignore_changes=\K.*?[^0]\]')"
+  required="$(cat "$root/terraform/resources.tf" | tr -d '[:space:]' | grep -oP '#@resources.'"$resource"'.required\K.*?=' | tr -d '[:space:]')"
+  required="$(jq 'split("=")' <<< '"'"${required:0:-1}"'"')"
+  ignore_changes="$(cat "$root/terraform/resources.tf" | tr -d '[:space:]' | grep -oP '#@resources.'"$resource"'.ignore_changesignore_changes=\K.*?[^0]\]' | tr -d '[:space:]')"
   ignore_changes="$(jq 'split(",") | map(select(startswith("#") | not))' <<< '"'"${ignore_changes:1:-1}"'"')"
   ignore="$(echo "$required" "$ignore_changes" | jq -s 'add')"
   ignore_string="$(jq -r 'map(".\(.)") | join(", ")' <<< "$ignore")"
