@@ -97,6 +97,8 @@ jobs:
   comment:
     needs: [prepare, plan]
     if: github.event_name == 'pull_request_target'
+    permissions:
+      pull-requests: write
     name: "Comment"
     runs-on: ubuntu-latest
     env:
