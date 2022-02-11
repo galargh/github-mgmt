@@ -29,7 +29,7 @@ runs:
           if [[ ! -z "$(git diff --name-only 'origin/${{ github.ref_name }}')" ]]; then
             state="$(gh pr view "$git_branch" --json state --jq .state 2> /dev/null || echo '')"
             if [[ "$state" != 'OPEN' ]]; then
-              gh pr create --body 'Close and reopen this PR to force checks to run.' --head "$git_branch" --base '${{ github.ref_name }}' --fill
+              gh pr create --body 'The changes in this PR were made by a bot. Please review carefully.' --head "$git_branch" --base '${{ github.ref_name }}' --fill
             fi
           fi
         else
