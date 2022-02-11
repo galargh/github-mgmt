@@ -5,4 +5,8 @@ on:
 
 jobs:
   update:
-    uses: protocol/github-mgmt-template/.github/workflows/update_reusable.yml@master
+    uses: galargh/github-mgmt-template/.github/workflows/update_reusable.yml@master
+    secrets:
+      UPDATE_GITHUB_APP_ID: ${{ secrets.UPDATE_GITHUB_APP_ID }}
+      UPDATE_GITHUB_APP_INSTALLATION_ID: ${{ secrets.UPDATE_GITHUB_APP_INSTALLATION_ID }}
+      UPDATE_GITHUB_APP_PEM_FILE: ${{ secrets.UPDATE_GITHUB_APP_PEM_FILE }}
