@@ -93,8 +93,17 @@ jobs:
       run:
         shell: bash
     steps:
+      - name: Generate app token
+        id: token
+        uses: tibdex/github-app-token@7ce9ffdcdeb2ba82b01b51d6584a6a85872336d4 # v1.5.1
+        with:
+          app_id: ${{ secrets.GH_RW_GITHUB_APP_ID }}
+          installation_id: ${{ secrets.GH_RW_GITHUB_APP_INSTALLATION_ID }}
+          private_key: ${{ secrets.GH_RW_GITHUB_APP_PEM_FILE }}
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ steps.token.outputs.token }}
       - uses: ./.github/actions/git-config-user
       - run: |
           while read workspace; do
@@ -105,6 +114,6 @@ jobs:
           done <<< "$(jq -r '.[]' <<< '${{ needs.prepare.outputs.workspaces }}')"
       - uses: ./.github/actions/git-push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
         with:
           suffix: sync
