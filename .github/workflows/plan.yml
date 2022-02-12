@@ -3,7 +3,7 @@ name: Plan
 on:
   workflow_run:
     workflows:
-      - "Pre: Plan"
+      - "Plan (pre)"
     types:
       - completed
   workflow_dispatch:

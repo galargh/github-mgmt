@@ -1,4 +1,4 @@
-name: "Post: Plan"
+name: "Plan (post)"
 
 on:
   workflow_run:
@@ -8,10 +8,10 @@ on:
       - completed
 
 jobs:
-  pre-plan:
+  notify:
     permissions:
       statuses: write
-    name: "Post: Plan"
+    name: "Notify"
     runs-on: ubuntu-latest
     defaults:
       run:
