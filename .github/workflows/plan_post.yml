@@ -10,7 +10,7 @@ on:
 jobs:
   pre-plan:
     permissions:
-      pull-requests: write
+      checks: write
     name: "Post: Plan"
     runs-on: ubuntu-latest
     defaults:
@@ -19,4 +19,4 @@ jobs:
     steps:
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo '${{ github.event.workflow_run }}' # gh api 'repos/${{ steps.github.outputs.repository }}/statuses/${{ steps.github.outputs.sha }}' -f status='pending' -f context='Plan' -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+        run: echo '${{ toJson(github.event.workflow_run) }}' # gh api 'repos/${{ steps.github.outputs.repository }}/statuses/${{ steps.github.outputs.sha }}' -f status='pending' -f context='Plan' -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
