@@ -33,7 +33,7 @@ jobs:
           if [[ '${{ github.event_name }}' == 'workflow_dispatch' ]]; then
             repository='${{ github.repository }}'
             sha='${{ github.sha }}'
-          elif [[ '${{ github.event_name }}' == 'workflow_run' ]]
+          elif [[ '${{ github.event_name }}' == 'workflow_run' ]]; then
             repository='${{ github.event.workflow_run.head_repository.full_name }}'
             sha='${{ github.event.workflow_run.head_commit.id }}'
           fi
