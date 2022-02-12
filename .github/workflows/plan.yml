@@ -23,6 +23,7 @@ jobs:
       workspaces: ${{ steps.workspaces.outputs.this }}
       repository: ${{ steps.github.outputs.repository }}
       sha: ${{ steps.github.outputs.sha }}
+      number: ${{ steps.github.outputs.number }}
     defaults:
       run:
         shell: bash
@@ -36,9 +37,11 @@ jobs:
           elif [[ '${{ github.event_name }}' == 'workflow_run' ]]; then
             repository='${{ github.event.workflow_run.head_repository.full_name }}'
             sha='${{ github.event.workflow_run.head_commit.id }}'
+            number="$(gh run view '${{ github.event.workflow_run.id }}' --repo '${{ github.repository }}' | grep -Pom1 '${{ github.event.workflow_run.name }} #\K[0-9]+'')"
           fi
           echo "::set-output name=repository::$repository"
           echo "::set-output name=sha::$sha"
+          echo "::set-output name=number::$number"
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh api 'repos/${{ github.repository }}/statuses/${{ steps.github.outputs.sha }}' -f context='Plan' -f state='pending' -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
@@ -153,7 +156,7 @@ jobs:
       - name: Comment on pull request
         uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 # v2.2.0
         with:
-          number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          number: ${{ needs.prepare.outputs.number }}
           message: |
             Before merge, verify that all the following plans are correct. They will be applied as-is after the merge.
 
