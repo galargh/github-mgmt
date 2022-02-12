@@ -1,0 +1,24 @@
+name: "Post: Plan"
+
+on:
+  workflow_run:
+    workflows:
+      - Plan
+    types:
+      - completed
+
+jobs:
+  pre-plan:
+    permissions:
+      statuses: write
+    name: "Post: Plan"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sha="$(gh run view --verbose '${{ github.event.workflow_run.id }}' --repo '${{ github.repository }}' | grep -Pom1 "gh api 'repos/${{ github.repository }}/statuses/\K.+(?=' -f context='Plan')")"
+          gh api "repos/${{ github.repository }}/statuses/$sha" -f context='Plan' -f state='${{ github.event.workflow_run.conclusion }}'
