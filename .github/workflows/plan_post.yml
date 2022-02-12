@@ -19,4 +19,6 @@ jobs:
     steps:
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo '${{ toJson(github.event.workflow_run) }}' # gh api 'repos/${{ steps.github.outputs.repository }}/statuses/${{ steps.github.outputs.sha }}' -f status='pending' -f context='Plan' -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+        run: |
+          sha="$(gh run view --verbose '${{ github.event.workflow_run.id }}' | grep -Pom1 "gh api 'repos/${{ github.repository }}/statuses/\K.+(?=' -f context='Plan')")"
+          gh api "repos/${{ github.repository }}/statuses/$sha" -f context='Plan' -f state='${{ github.event.workflow_run.conclusion }}'
