@@ -16,7 +16,7 @@ jobs:
         (github.event_name == 'workflow_run' &&
         github.event.workflow_run.conclusion == 'success')
     permissions:
-      checks: write
+      statuses: write
     name: Prepare
     runs-on: ubuntu-latest
     outputs:
@@ -41,7 +41,7 @@ jobs:
           echo "::set-output name=sha::$sha"
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh api 'repos/${{ steps.github.outputs.repository }}/check-runs' -f head_sha='${{ steps.github.outputs.sha }}' -f status='in_progress' -f details_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+        run: gh api 'repos/${{ steps.github.outputs.repository }}/statuses/${{ steps.github.outputs.sha }}' -f context='in_progress' -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
       - name: Checkout
         uses: actions/checkout@v2
         with:

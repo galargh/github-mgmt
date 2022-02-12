@@ -10,7 +10,7 @@ on:
 jobs:
   pre-plan:
     permissions:
-      checks: write
+      statuses: write
     name: "Post: Plan"
     runs-on: ubuntu-latest
     defaults:
