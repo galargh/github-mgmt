@@ -1,0 +1,22 @@
+name: "Post: Plan"
+
+on:
+  workflow_run:
+    workflows:
+      - Plan
+    types:
+      - completed
+
+jobs:
+  pre-plan:
+    permissions:
+      pull-requests: write
+    name: "Post: Plan"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo '${{ github.event.workflow_run }}' # gh api 'repos/${{ steps.github.outputs.repository }}/statuses/${{ steps.github.outputs.sha }}' -f status='pending' -f context='Plan' -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
