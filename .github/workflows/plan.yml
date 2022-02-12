@@ -39,7 +39,7 @@ jobs:
           elif [[ '${{ github.event_name }}' == 'workflow_run' ]]; then
             repository='${{ github.event.workflow_run.head_repository.full_name }}'
             sha='${{ github.event.workflow_run.head_commit.id }}'
-            number="$(gh run view '${{ github.event.workflow_run.id }}' --repo '${{ github.repository }}' | grep -Pom1 '${{ github.event.workflow_run.name }} #\K[0-9]+')"
+            number="$(gh run view '${{ github.event.workflow_run.id }}' --repo '${{ github.repository }}' | grep -Pom1 '#\K[0-9]+')"
           fi
           echo "::set-output name=repository::$repository"
           echo "::set-output name=sha::$sha"
